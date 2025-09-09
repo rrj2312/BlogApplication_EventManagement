@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.name }} - Event Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>{{ event.name }}</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-info-circle me-2"></i>Description</h6>
+                        <p>{{ event.description|default:"No description available." }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-chart-bar me-2"></i>Statistics</h6>
+                        <p>
+                            <span class="badge bg-primary me-2">{{ event.total_registrations }} Registered</span>
+                            <span class="badge bg-success">{{ event.total_attendance }} Attended</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-calendar me-2"></i>Date & Time</h6>
+                        <p>{{ event.date|date:"l, F j, Y" }}<br>
+                        <strong>{{ event.date|date:"g:i A" }}</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-map-marker-alt me-2"></i>Location</h6>
+                        <p>{{ event.location }}</p>
+                    </div>
+                </div>
+
+                {% if event.is_active %}
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'register' event.id %}" class="btn btn-success btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>Register for this Event
+                        </a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Events
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        This event is no longer accepting registrations.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

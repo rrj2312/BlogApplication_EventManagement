@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+
+{% block title %}Live Attendance - {{ event.name }} - Event Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1><i class="fas fa-users me-2"></i>{{ event.name }}</h1>
+        <p class="text-muted mb-0">Live Attendance Tracking</p>
+    </div>
+    <div>
+        <a href="{% url 'export_attendance' event.id %}" class="btn btn-success me-2">
+            <i class="fas fa-download me-1"></i>Export Excel
+        </a>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Statistics -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h3 id="total-registered">{{ registrations|length }}</h3>
+                <p class="mb-0">Total Registered</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h3 id="total-attended">{% for reg in registrations %}{% if reg.is_attended %}1{% endif %}{% endfor %}</h3>
+                <p class="mb-0">Present</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h3 id="total-absent">{{ registrations|length }}</h3>
+                <p class="mb-0">Absent</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h3 id="attendance-rate">0%</h3>
+                <p class="mb-0">Attendance Rate</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search and Filter -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" id="search-input" class="form-control" placeholder="Search by name, email, or registration ID">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select id="status-filter" class="form-select">
+                    <option value="">All Status</option>
+                    <option value="present">Present</option>
+                    <option value="absent">Absent</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button id="refresh-btn" class="btn btn-outline-primary">
+                    <i class="fas fa-sync-alt me-1"></i>Refresh
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Attendance List -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Participant List</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="attendance-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Registration ID</th>
+                        <th>Status</th>
+                        <th>Attendance Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registration in registrations %}
+                    <tr data-name="{{ registration.name|lower }}" data-email="{{ registration.email|lower }}" data-id="{{ registration.registration_id|lower }}" data-status="{% if registration.is_attended %}present{% else %}absent{% endif %}">
+                        <td><strong>{{ registration.name }}</strong></td>
+                        <td>{{ registration.email }}</td>
+                        <td><code>{{ registration.registration_id }}</code></td>
+                        <td>
+                            {% if registration.is_attended %}
+                                <span class="attendance-status status-present">Present</span>
+                            {% else %}
+                                <span class="attendance-status status-absent">Absent</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if registration.is_attended %}
+                                {{ registration.attendance.timestamp|date:"M d, Y H:i:s" }}
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">No registrations found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let eventId = {{ event.id }};
+let refreshInterval;
+
+function updateAttendance() {
+    fetch(`/api/live-attendance/${eventId}/`)
+        .then(response => response.json())
+        .then(data => {
+            updateStatistics(data);
+            updateTable(data);
+        })
+        .catch(error => {
+            console.error('Error fetching attendance data:', error);
+        });
+}
+
+function updateStatistics(data) {
+    document.getElementById('total-registered').textContent = data.total_registrations;
+    document.getElementById('total-attended').textContent = data.total_attendance;
+    document.getElementById('total-absent').textContent = data.total_registrations - data.total_attendance;
+    
+    let rate = data.total_registrations > 0 ? Math.round((data.total_attendance / data.total_registrations) * 100) : 0;
+    document.getElementById('attendance-rate').textContent = rate + '%';
+}
+
+function updateTable(data) {
+    const tbody = document.querySelector('#attendance-table tbody');
+    tbody.innerHTML = '';
+    
+    if (data.registrations.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No registrations found</td></tr>';
+        return;
+    }
+    
+    data.registrations.forEach(reg => {
+        const row = document.createElement('tr');
+        row.setAttribute('data-name', reg.name.toLowerCase());
+        row.setAttribute('data-email', reg.email.toLowerCase());
+        row.setAttribute('data-id', reg.registration_id.toLowerCase());
+        row.setAttribute('data-status', reg.is_attended ? 'present' : 'absent');
+        
+        const statusClass = reg.is_attended ? 'status-present' : 'status-absent';
+        const statusText = reg.is_attended ? 'Present' : 'Absent';
+        const timeText = reg.is_attended ? reg.timestamp : '<span class="text-muted">-</span>';
+        
+        row.innerHTML = `
+            <td><strong>${reg.name}</strong></td>
+            <td>${reg.email}</td>
+            <td><code>${reg.registration_id}</code></td>
+            <td><span class="attendance-status ${statusClass}">${statusText}</span></td>
+            <td>${timeText}</td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+    
+    applyFilters();
+}
+
+function applyFilters() {
+    const searchTerm = document.getElementById('search-input').value.toLowerCase();
+    const statusFilter = document.getElementById('status-filter').value;
+    const rows = document.querySelectorAll('#attendance-table tbody tr');
+    
+    rows.forEach(row => {
+        if (!row.hasAttribute('data-name')) return;
+        
+        const name = row.getAttribute('data-name');
+        const email = row.getAttribute('data-email');
+        const id = row.getAttribute('data-id');
+        const status = row.getAttribute('data-status');
+        
+        const matchesSearch = !searchTerm || 
+            name.includes(searchTerm) || 
+            email.includes(searchTerm) || 
+            id.includes(searchTerm);
+            
+        const matchesStatus = !statusFilter || status === statusFilter;
+        
+        if (matchesSearch && matchesStatus) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+// Event listeners
+document.getElementById('search-input').addEventListener('input', applyFilters);
+document.getElementById('status-filter').addEventListener('change', applyFilters);
+document.getElementById('refresh-btn').addEventListener('click', updateAttendance);
+
+// Auto-refresh every 10 seconds
+refreshInterval = setInterval(updateAttendance, 10000);
+
+// Stop auto-refresh when page is hidden
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        clearInterval(refreshInterval);
+    } else {
+        refreshInterval = setInterval(updateAttendance, 10000);
+    }
+});
+
+// Initial statistics calculation
+document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('#attendance-table tbody tr[data-status]');
+    const totalRegistrations = rows.length;
+    const totalAttendance = document.querySelectorAll('#attendance-table tbody tr[data-status="present"]').length;
+    const rate = totalRegistrations > 0 ? Math.round((totalAttendance / totalRegistrations) * 100) : 0;
+    
+    document.getElementById('total-attended').textContent = totalAttendance;
+    document.getElementById('total-absent').textContent = totalRegistrations - totalAttendance;
+    document.getElementById('attendance-rate').textContent = rate + '%';
+});

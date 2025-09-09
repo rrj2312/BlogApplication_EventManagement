@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Events - Event Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="fas fa-calendar-alt me-2"></i>Upcoming Events</h1>
+        </div>
+
+        {% if events %}
+            <div class="row">
+                {% for event in events %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.name }}</h5>
+                                <p class="card-text text-muted">{{ event.description|truncatewords:20 }}</p>
+                                <div class="mb-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar me-1"></i>{{ event.date|date:"M d, Y H:i" }}
+                                    </small>
+                                </div>
+                                <div class="mb-3">
+                                    <small class="text-muted">
+                                        <i class="fas fa-map-marker-alt me-1"></i>{{ event.location }}
+                                    </small>
+                                </div>
+                                <div class="mb-3">
+                                    <span class="badge bg-primary">{{ event.total_registrations }} Registered</span>
+                                    <span class="badge bg-success">{{ event.total_attendance }} Attended</span>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <a href="{% url 'event_detail' event.id %}" class="btn btn-outline-primary btn-sm me-2">
+                                    <i class="fas fa-eye me-1"></i>View Details
+                                </a>
+                                <a href="{% url 'register' event.id %}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-user-plus me-1"></i>Register
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+                <h3>No events available</h3>
+                <p class="text-muted">Check back later for upcoming events!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,198 @@
+<!-- templates/events/qr_scanner.html -->
+{% extends 'base.html' %}
+
+{% block title %}QR Scanner - Event Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0"><i class="fas fa-qrcode me-2"></i>QR Code Scanner</h4>
+            </div>
+            <div class="card-body">
+                <div class="scanner-container">
+                    <div id="qr-reader" style="width: 100%;"></div>
+                    
+                    <div class="text-center mt-3">
+                        <button id="start-scan" class="btn btn-success me-2">
+                            <i class="fas fa-play me-1"></i>Start Scanner
+                        </button>
+                        <button id="stop-scan" class="btn btn-danger" disabled>
+                            <i class="fas fa-stop me-1"></i>Stop Scanner
+                        </button>
+                    </div>
+
+                    <div class="mt-4">
+                        <h6>Manual Entry:</h6>
+                        <div class="input-group">
+                            <input type="text" id="manual-qr" class="form-control" placeholder="Enter QR code data manually">
+                            <button class="btn btn-outline-primary" type="button" id="manual-submit">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="scan-result" class="mt-4" style="display: none;">
+                    <div class="alert" id="result-alert">
+                        <div id="result-message"></div>
+                        <div id="participant-info" style="display: none;">
+                            <hr>
+                            <h6>Participant Information:</h6>
+                            <div id="participant-details"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h6>Recent Scans:</h6>
+                    <div id="recent-scans" class="list-group">
+                        <!-- Recent scans will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+<script>
+let html5QrcodeScanner = null;
+
+function onScanSuccess(decodedText, decodedResult) {
+    processQRCode(decodedText);
+}
+
+function onScanFailure(error) {
+    // Handle scan failure silently
+}
+
+function startScanner() {
+    html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr-reader", 
+        { 
+            fps: 10, 
+            qrbox: { width: 250, height: 250 },
+            supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
+        },
+        false
+    );
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    
+    document.getElementById('start-scan').disabled = true;
+    document.getElementById('stop-scan').disabled = false;
+}
+
+function stopScanner() {
+    if (html5QrcodeScanner) {
+        html5QrcodeScanner.clear().then(() => {
+            document.getElementById('start-scan').disabled = false;
+            document.getElementById('stop-scan').disabled = true;
+        });
+    }
+}
+
+function processQRCode(qrData) {
+    fetch('/api/scan-qr/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ qr_data: qrData })
+    })
+    .then(response => response.json())
+    .then(data => {
+        showResult(data);
+        if (data.success) {
+            addToRecentScans(data.participant);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showResult({
+            success: false,
+            message: 'Network error. Please try again.'
+        });
+    });
+}
+
+function showResult(data) {
+    const resultDiv = document.getElementById('scan-result');
+    const alertDiv = document.getElementById('result-alert');
+    const messageDiv = document.getElementById('result-message');
+    const participantInfo = document.getElementById('participant-info');
+    const participantDetails = document.getElementById('participant-details');
+
+    resultDiv.style.display = 'block';
+    
+    if (data.success) {
+        alertDiv.className = 'alert alert-success';
+        messageDiv.innerHTML = `<i class="fas fa-check-circle me-2"></i>${data.message}`;
+        
+        if (data.participant) {
+            participantDetails.innerHTML = `
+                <strong>Name:</strong> ${data.participant.name}<br>
+                <strong>Email:</strong> ${data.participant.email}<br>
+                <strong>Registration ID:</strong> ${data.participant.registration_id}<br>
+                <strong>Event:</strong> ${data.participant.event}<br>
+                <strong>Timestamp:</strong> ${data.participant.timestamp}
+            `;
+            participantInfo.style.display = 'block';
+        }
+    } else {
+        alertDiv.className = 'alert alert-danger';
+        messageDiv.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>${data.message}`;
+        participantInfo.style.display = 'none';
+    }
+}
+
+function addToRecentScans(participant) {
+    const recentScansDiv = document.getElementById('recent-scans');
+    const scanItem = document.createElement('div');
+    scanItem.className = 'list-group-item';
+    scanItem.innerHTML = `
+        <div class="d-flex w-100 justify-content-between">
+            <h6 class="mb-1">${participant.name}</h6>
+            <small>${participant.timestamp}</small>
+        </div>
+        <p class="mb-1">${participant.event}</p>
+        <small>ID: ${participant.registration_id}</small>
+    `;
+    
+    // Add to top of list
+    recentScansDiv.insertBefore(scanItem, recentScansDiv.firstChild);
+    
+    // Keep only last 5 scans
+    while (recentScansDiv.children.length > 5) {
+        recentScansDiv.removeChild(recentScansDiv.lastChild);
+    }
+}
+
+// Event listeners
+document.getElementById('start-scan').addEventListener('click', startScanner);
+document.getElementById('stop-scan').addEventListener('click', stopScanner);
+
+document.getElementById('manual-submit').addEventListener('click', function() {
+    const qrData = document.getElementById('manual-qr').value.trim();
+    if (qrData) {
+        processQRCode(qrData);
+        document.getElementById('manual-qr').value = '';
+    }
+});
+
+document.getElementById('manual-qr').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        document.getElementById('manual-submit').click();
+    }
+});
+
+// Auto-start scanner on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Add slight delay to ensure camera permissions
+    setTimeout(startScanner, 500);
+});
+</script>
+{% endblock %}

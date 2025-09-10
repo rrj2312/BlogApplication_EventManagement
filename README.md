@@ -74,7 +74,7 @@ Deployment
     5. Backend APIs hosted separately with accessible endpoints
 
 Pictures of Features
-
+<img width="1272" height="868" alt="Image" src="https://github.com/user-attachments/assets/02a64fc3-e53f-4f57-aaef-ce15a1db314e" />
 
 Event Management System:
 A comprehensive event attendance and registration system with QR code check-in, admin dashboard, and data export capabilities.

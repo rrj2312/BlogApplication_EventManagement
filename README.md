@@ -73,6 +73,8 @@ Build the frontend for production:
   - Add environment variables in the dashboard
   - Backend APIs hosted separately with accessible endpoints
 
+Deployed Link: https://blog-application-event-management-1.vercel.app/
+
 Pictures of Features
 1. Front Page
 <img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/02a64fc3-e53f-4f57-aaef-ce15a1db314e" />

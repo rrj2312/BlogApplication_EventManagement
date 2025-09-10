@@ -126,13 +126,13 @@ Steps
     - Adjust based on project config.
   
   5. Run Migrations
-    - Apply ORM migrations to create tables:
-    - python manage.py migrate or relevant commands
+  - Apply ORM migrations to create tables:
+  - python manage.py migrate or relevant commands
   
   6. Start Development Server
-    - Run backend and (if separate) frontend servers:
-    - python manage.py runserver
-    - npm run dev
+  - Run backend and (if separate) frontend servers:
+  - python manage.py runserver
+  - npm run dev
 
 Deployment
   Deploying Locally

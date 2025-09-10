@@ -84,7 +84,7 @@ Pictures of Features
 <img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/0a70d813-dbc5-4559-ae5d-37c00178d4d0" />
 
 4. Authentication using Google OAuth 2.0 authentication
-<img width="1312" height="872" alt="Image" src="https://github.com/user-attachments/assets/93f7e548-b56e-4fa5-a304-92d1c992336c" />
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/93f7e548-b56e-4fa5-a304-92d1c992336c" />
 
 
 Event Management System:
@@ -163,28 +163,28 @@ Email: nscc@gmail.com
 
   Pictures of Features
   1. Front page
-<img width="1891" height="926" alt="Image" src="https://github.com/user-attachments/assets/e64c82e7-0336-4d60-99cb-df7934b04b1f" />
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/e64c82e7-0336-4d60-99cb-df7934b04b1f" />
 
 2. QR Scanner
-<img width="866" height="571" alt="Image" src="https://github.com/user-attachments/assets/5e8dec5e-9cb4-4bd7-91b2-2fbd151af318" />
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/5e8dec5e-9cb4-4bd7-91b2-2fbd151af318" />
 
 3. Login Page
-<img width="1896" height="908" alt="Image" src="https://github.com/user-attachments/assets/90311ae1-5fc2-475d-a1bc-f837fa4bcc41" />
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/90311ae1-5fc2-475d-a1bc-f837fa4bcc41" />
 
 4. Admin Dashboard
-<img width="1917" height="922" alt="Image" src="https://github.com/user-attachments/assets/3dc5eb93-2c49-4d62-843d-67727a463e6d" />a
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/3dc5eb93-2c49-4d62-843d-67727a463e6d" />a
 
 5. Users List
-<img width="1898" height="920" alt="Image" src="https://github.com/user-attachments/assets/b481126d-e2b9-4d67-b0e6-87599dc846cc" />
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/b481126d-e2b9-4d67-b0e6-87599dc846cc" />
 
 6. Attendence List
-<img width="1870" height="910" alt="Image" src="https://github.com/user-attachments/assets/7a401496-a76f-479b-b337-fb23561dd24a" />
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/7a401496-a76f-479b-b337-fb23561dd24a" />
 
 7. Events List
-<img width="1901" height="919" alt="Image" src="https://github.com/user-attachments/assets/94bc9e39-57d0-425e-9b7e-29c85e1ea6ac" />
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/94bc9e39-57d0-425e-9b7e-29c85e1ea6ac" />
 
 8. Resgistration List
-<img width="1885" height="923" alt="Image" src="https://github.com/user-attachments/assets/d7aeedfd-db18-4158-ad9d-1bf0be965844" />
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/d7aeedfd-db18-4158-ad9d-1bf0be965844" />
 
 
   

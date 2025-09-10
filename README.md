@@ -13,25 +13,25 @@ Installation
 - Open browser at http://localhost:3000
 
 Environment Setup
-  Prerequisites
-      - Install Node.js (v16+ recommended) with npm
-      - Install Python 3.8+ (if backend uses Python) and pip
-      - Install a relational database server (PostgreSQL or MySQL)
-      - Git for version control
+  Prerequisites:
+- Install Node.js (v16+ recommended) with npm
+- Install Python 3.8+ (if backend uses Python) and pip
+- Install a relational database server (PostgreSQL or MySQL)
+- Git for version control
      
   Steps
   1. Clone the repository
-       - git clone <repo-url>
-       - cd BlogApplication_EventManagement
+  - git clone <repo-url>
+  - cd BlogApplication_EventManagement
   
   2. Install dependencies
-     - For frontend: npm install
-     - For backend (Python example): pip install -r requirements.txt
+  - For frontend: npm install
+  - For backend (Python example): pip install -r requirements.txt
   
   3. Setup Database:
-    - Install and run PostgreSQL or MySQL server locally or use a remote DB
-    - Create a database for the project
-    - Note the database name, username, and password for environment configuration
+  - Install and run PostgreSQL or MySQL server locally or use a remote DB
+  - Create a database for the project
+  - Note the database name, username, and password for environment configuration
   
   4.Configure Environment Variables
     - Create a .env file at the root project directory with:
@@ -42,36 +42,36 @@ Environment Setup
   
   5. Run Database Migrations
     Run migrations to create tables based on the ORM you use:
-      - For Django: python manage.py migrate
-      - For Flask with Alembic, use alembic commands.
+    - For Django: python manage.py migrate
+    - For Flask with Alembic, use alembic commands.
   
-  6. Start Development Servers
+  7. Start Development Servers
     - Backend: python manage.py runserver or appropriate backend start command
     - Frontend: npm run dev
 
 Deployment
   Deploying Locally
-    - Set environment variables in .env file
-    - Build the frontend for production:
-    - npm run build
-    - Run backend server in production mode with WSGI (e.g., Gunicorn for Python) or Node production server
-    - Access via localhost
+  - Set environment variables in .env file
+Build the frontend for production:
+  - npm run build
+  - Run backend server in production mode with WSGI (e.g., Gunicorn for Python) or Node production server
+  - Access via localhost
   
   Deploying on a Cloud Server (e.g. DigitalOcean, AWS, Heroku)
-    - Provision a virtual server or platform with Node.js/Python and database support
-    - Clone the repo on the server
-    - Configure environment variables securely
-    - Install dependencies and build frontend
-    - Run backend with process manager (e.g., PM2) for Node or Gunicorn + Nginx for Python
-    - Setup reverse proxy with SSL termination for HTTPS
-    - Use persistent storage for database backups and logs
+  - Provision a virtual server or platform with Node.js/Python and database support
+  - Clone the repo on the server
+  - Configure environment variables securely
+  - Install dependencies and build frontend
+  - Run backend with process manager (e.g., PM2) for Node or Gunicorn + Nginx for Python
+  - Setup reverse proxy with SSL termination for HTTPS
+  - Use persistent storage for database backups and logs
   
   Deploying on Vercel/Netlify (Frontend only)
-    - Connect GitHub repo to Vercel/Netlify
-    - Configure build command: npm run build
-    - Configure publish directory (e.g., .next for Next.js)
-    - Add environment variables in the dashboard
-    - Backend APIs hosted separately with accessible endpoints
+  - Connect GitHub repo to Vercel/Netlify
+  - Configure build command: npm run build
+  - Configure publish directory (e.g., .next for Next.js)
+  - Add environment variables in the dashboard
+  - Backend APIs hosted separately with accessible endpoints
 
 Pictures of Features
 1. Front Page
@@ -96,27 +96,27 @@ Installation
 - Configure environment variables for the database and other secrets.
 - Run the necessary database setup and migrations.
 - Launch backend server and frontend server.
-  6. Access the app at http://localhost:8000/
+- Access the app at http://localhost:8000/
 
 Environment Setup 
-  Prerequisites
-    - Install Python 3.8+ or Node.js 16+
-    - Install Git
-    - Install and configure database (PostgreSQL/MySQL recommended)
-    - For QR code generation, ensure dependencies are installed via pip or npm
+Prerequisites
+- Install Python 3.8+ or Node.js 16+
+- Install Git
+- Install and configure database (PostgreSQL/MySQL recommended)
+- For QR code generation, ensure dependencies are installed via pip or npm
 
 Steps
   1. Clone the repository
-    - git clone <repo-url>
-    - cd BlogApplication_EventManagement
+  - git clone <repo-url>
+  - cd BlogApplication_EventManagement
   
   2.Install dependencies
-    - Python backend: pip install -r requirements.txt
-    - For Node backend or frontend: npm install
+  - Python backend: pip install -r requirements.txt
+  - For Node backend or frontend: npm install
   
   3. Setup Database
-    - Install and launch PostgreSQL/MySQL server
-    - Create a dedicated database
+  - Install and launch PostgreSQL/MySQL server
+  - Create a dedicated database
     
   4. Configure Environment Variables
     - Create .env file with:
@@ -136,30 +136,30 @@ Steps
 
 Deployment
   Deploying Locally
-    - Create .env with necessary keys and credentials
-    - Run production build for frontend (if applicable): npm run build
-    - Use WSGI server (Gunicorn/Daphne) or Node production server for backend
-    - Access via localhost
+  - Create .env with necessary keys and credentials
+  - Run production build for frontend (if applicable): npm run build
+  - Use WSGI server (Gunicorn/Daphne) or Node production server for backend
+  - Access via localhost
   
   Deploying on a Cloud VPS or Platform
-    - Setup server with necessary runtime environments
-    - Clone repo, configure environment variables securely
-    - Install dependencies and build assets
-    - Run backend with process managers and setup reverse proxy (Nginx/Apache)
-    - Secure with SSL certificates
-    - Setup regular backups for the database and exported files
+   - Setup server with necessary runtime environments
+   - Clone repo, configure environment variables securely
+   - Install dependencies and build assets
+   - Run backend with process managers and setup reverse proxy (Nginx/Apache)
+   - Secure with SSL certificates
+   - Setup regular backups for the database and exported files
   
   Deploying on Platform-as-a-Service (Heroku, AWS Elastic Beanstalk)
-    - Push code via Git
-    - Configure environment variables in platform dashboard
-    - Use managed database services or attach external DB
-    - Configure build and start commands as required by platform
+  - Push code via Git
+  - Configure environment variables in platform dashboard
+  - Use managed database services or attach external DB
+  - Configure build and start commands as required by platform
 
 Login Information(Superuser):
 Admin
-Username: NSCC
-Password: nscc123!
-Email: nscc@gmail.com
+- Username: NSCC
+- Password: nscc123!
+- Email: nscc@gmail.com
 
   Pictures of Features
   1. Front page
@@ -172,6 +172,7 @@ Email: nscc@gmail.com
 <img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/90311ae1-5fc2-475d-a1bc-f837fa4bcc41" />
 
 4. Admin Dashboard
+   
 <img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/3dc5eb93-2c49-4d62-843d-67727a463e6d" />a
 
 5. Users List

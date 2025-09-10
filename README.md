@@ -163,6 +163,8 @@ Admin
 - Password: nscc123!
 - Email: nscc@gmail.com
 
+Deployed Link: https://blog-application-event-management-k.vercel.app/
+
   Pictures of Features
 1. Front page
 <img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/e64c82e7-0336-4d60-99cb-df7934b04b1f" />

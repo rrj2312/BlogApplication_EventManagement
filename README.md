@@ -14,10 +14,10 @@ Installation
 
 Environment Setup
   Prerequisites
-       - Install Node.js (v16+ recommended) with npm
-       -  Install Python 3.8+ (if backend uses Python) and pip
-       -  Install a relational database server (PostgreSQL or MySQL)
-       -  Git for version control
+       1. Install Node.js (v16+ recommended) with npm
+       2. Install Python 3.8+ (if backend uses Python) and pip
+       3. Install a relational database server (PostgreSQL or MySQL)
+       4. Git for version control
      
   Steps
   1. Clone the repository
@@ -35,9 +35,9 @@ Environment Setup
   
   4.Configure Environment Variables
     - Create a .env file at the root project directory with:
-        DATABASE_URL=postgres://username:password@localhost:5432/dbname
-        AUTH_SECRET=your_auth_secret_key
-        NEXT_PUBLIC_API_URL=http://localhost:3000/api
+          DATABASE_URL=postgres://username:password@localhost:5432/dbname
+          AUTH_SECRET=your_auth_secret_key
+          NEXT_PUBLIC_API_URL=http://localhost:3000/api
     - Adapt keys depending on backend framework and authentication provider used.
   
   5. Run Database Migrations
@@ -78,6 +78,14 @@ Pictures of Features
 1. Front Page
 <img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/02a64fc3-e53f-4f57-aaef-ce15a1db314e" />
 
+2. User Dashboard
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/272d7401-db13-4a4e-96fe-f6e9f34e744b" />
+
+3. Login required for some blogs
+<img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/0a70d813-dbc5-4559-ae5d-37c00178d4d0" />
+
+4. Authentication using Google OAuth 2.0 authentication
+<img width="1312" height="872" alt="Image" src="https://github.com/user-attachments/assets/93f7e548-b56e-4fa5-a304-92d1c992336c" />
 
 
 Event Management System:

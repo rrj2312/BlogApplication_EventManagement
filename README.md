@@ -162,7 +162,7 @@ Admin
 - Email: nscc@gmail.com
 
   Pictures of Features
-  1. Front page
+1. Front page
 <img width="500" height="800" alt="Image" src="https://github.com/user-attachments/assets/e64c82e7-0336-4d60-99cb-df7934b04b1f" />
 
 2. QR Scanner
